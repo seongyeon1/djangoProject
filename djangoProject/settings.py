@@ -10,8 +10,8 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 import os
-from django.core.exceptions import ImproperlyConfigured
 from pathlib import Path
+import dj_database_url
 
 import sys
 import json
@@ -24,7 +24,7 @@ SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY','django-insecure-e*v3@d6k^ltdy6k
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = bool(os.environ.get('DJANGO_DEBUG', True))
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 # Application definition
 
@@ -41,6 +41,8 @@ INSTALLED_APPS = [
     'notice.apps.NoticeConfig',
     #'sanction.apps.SanctionConfig',
     #'uploader.apps.UploaderConfig',
+
+    'corsheaders',
 ]
 
 MIDDLEWARE = [
@@ -51,6 +53,10 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
+    'whitenoise.middleware.WhiteNoiseMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
+
 ]
 
 ROOT_URLCONF = 'djangoProject.urls'
@@ -85,6 +91,9 @@ DATABASES = {
         'PASSWORD': '1111',
     }
 }
+db_from_env = dj_database_url.config(conn_max_age=500)
+DATABASES['default'].update(db_from_env)
+
 
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
@@ -126,6 +135,12 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     BASE_DIR / 'static',
 ]
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
+# Simplified static file serving.
+# https://warehouse.python.org/project/whitenoise/
+
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 
 # Default primary key field type
