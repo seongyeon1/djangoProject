@@ -42,6 +42,8 @@ INSTALLED_APPS = [
     #'sanction.apps.SanctionConfig',
     #'uploader.apps.UploaderConfig',
 
+    'drf_yasg',
+    
     'corsheaders',
 ]
 
@@ -64,7 +66,7 @@ ROOT_URLCONF = 'djangoProject.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'templates')],
+        'DIRS': [ os.path.join(BASE_DIR, 'templates') ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [

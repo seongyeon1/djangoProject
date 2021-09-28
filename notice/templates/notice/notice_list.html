@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% block title %}notice_list.html{% endblock %}
+
+{% block content %}
+    {% load static %}
+    <!-- Page Content-->
+    <section class="py-5 bg-light">
+        <div class="container px-5">
+            <div class="row gx-5">
+                <h2 class="fw-bolder fs-5 mb-4">공지사항</h2>
+
+                <table class="table">
+                    <thead>
+                        <tr class="text-center thead-dark">
+                            <th style="width:50%">제목</th>
+                            <th>글쓴이</th>
+                            <th>작성일시</th>
+                            <th>조회수</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% if notice_list %}
+                    {% for notice in notice_list %}
+                        <tr class="text-center">
+                            <td>{{ notice.title }}</td>
+                            <td>{{ notice.writer }}</td>
+                            <td>{{ notice.registered_date|date:'Y. m. d' }}</td>
+                            <td>{{ notice.hits }}</td>
+                        </tr>
+                    {% endfor %}
+                    {% else %}
+                        <tr>
+                            <td colspan="3">공지사항이 없습니다.</td>
+                        </tr>
+                    {% endif %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+{% endblock %}
