@@ -51,6 +51,9 @@ urlpatterns = [
     # 기술사용
     # path('uploader/', include('uploader.urls')),
 
+    # 마이페이지
+    path('mysite/', include('mysite.urls')),
+
     # 로그인, 회원가입
     path('account/', include('account.urls')),
 

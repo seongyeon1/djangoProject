@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'account.apps.AccountConfig',
     'article.apps.ArticleConfig',
     'notice.apps.NoticeConfig',
+    'mysite.apps.MysiteConfig',
     #'sanction.apps.SanctionConfig',
     #'uploader.apps.UploaderConfig',
 
