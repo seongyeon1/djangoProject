@@ -39,7 +39,7 @@
                         {% else %}
                         {% if notice_fixed %}
                         {% for file in file_fixed %}
-                            <tr class="text-center">
+                            <tr class="text-center" style="cursor:pointer;" onclick="location.href='/mysite/{{ file.id }}/'">
                                 <td>{{ file.id }}</td>
                                 <td>{{ file.file_name }}</td>
                                 <td>{{ file.commit_date|date:'Y. m. d' }}</td>
@@ -56,7 +56,7 @@
                     <tbody>
                     {% if file_list %}
                     {% for file in file_list %}
-                        <tr class="text-center">
+                        <tr class="text-center" style="cursor:pointer;" onclick="location.href='/mysite/{{ file.id }}/'">
                             <td>{{ file.id }}</td>
                             <td>{{ file.file_name }}</td>
                             <td>{{ file.commit_date|date:'Y. m. d' }}</td>

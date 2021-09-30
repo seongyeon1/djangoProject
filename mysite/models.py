@@ -28,6 +28,9 @@ class File(models.Model):
 
 class Page(models.Model):
     id = models.BigAutoField(help_text="Page ID", primary_key=True)
-    file_id = models.ForeignKey("File", related_name="file", on_delete=models.CASCADE, db_column="file_id")
+    file = models.ForeignKey(File, related_name="file", on_delete=models.CASCADE, db_column="file")
     is_safe = models.BooleanField(verbose_name='안전여부', default=False)
     box_json = models.CharField(max_length=128)
+
+    def __str__(self):
+        return self.file.file_name

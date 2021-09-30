@@ -21,11 +21,13 @@
                     <tbody>
                     {% if page_list %}
                     {% for page in page_list %}
+                        {% if page.file.file_name == file.file_name %}
                         <tr class="text-center">
                             <td>{{ page.id }}</td>
                             <td>{{ page.file_name }}</td>
                             <td>{{ page.is_safe }}</td>
                         </tr>
+                        {% endif %}
                     {% endfor %}
                     {% else %}
                         <tr>

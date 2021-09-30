@@ -41,7 +41,7 @@ INSTALLED_APPS = [
     'notice.apps.NoticeConfig',
     'mysite.apps.MysiteConfig',
     #'sanction.apps.SanctionConfig',
-    #'uploader.apps.UploaderConfig',
+    'uploader.apps.UploaderConfig',
 
     'drf_yasg',
     
