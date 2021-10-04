@@ -8,19 +8,20 @@
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-                <li class="nav-item"><a class="nav-link active" aria-current="page" href="{% url 'home' %}">홈</a></li>
+                <li class="nav-item"><a class="nav-link active" aria-current="page" href="{% url 'article:index' %}">홈</a></li>
                 <li class="nav-item"><a class="nav-link" href="{% url 'notice:index' %}">공지사항</a></li>
 
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" id="navbarDropdownBlog" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">기술설정</a>
                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownBlog">
-                        <li><a class="dropdown-item" href="#">제재목록</a></li>
+                        <li><a class="dropdown-item" href="#">임계치 설정</a></li>
+                        <li><a class="dropdown-item" href="{% url 'sanction:index' %}">제재 목록 검색</a></li>
                         <li><a class="dropdown-item" href="{% url 'article:index' %}">개발스토리</a></li>
-                        <li><a class="dropdown-item" href="{% url 'introduce' %}">기술소개</a></li>
+                        <li><a class="dropdown-item" href="{% url 'introduce' %}"></a></li>
                     </ul>
                 </li>
 
-                <li class="nav-item"><a class="nav-link" href="#!">기술사용</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'uploader:uploader' %}">기술사용</a></li>
                 <li class="nav-item"><a class="nav-link" href="{% url 'mysite:file_list' %}">마이페이지</a></li>
                 <li class="nav-item">
                     {% if user.is_authenticated %}

@@ -40,9 +40,10 @@ INSTALLED_APPS = [
     'article.apps.ArticleConfig',
     'notice.apps.NoticeConfig',
     'mysite.apps.MysiteConfig',
-    #'sanction.apps.SanctionConfig',
+    'sanction.apps.SanctionConfig',
     'uploader.apps.UploaderConfig',
 
+    'bootstrap4',
     'drf_yasg',
     
     'corsheaders',

@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load bootstrap4 %}
+{% block content %}
+<div class="container" style="padding: 15px;">
+    <form method="POST" action="{% url 'uploader:uploader' %}" enctype="multipart/form-data">
+        {% csrf_token %}
+        {% bootstrap_form uploadfileForm %}
+        <input type="submit" class="btn btn-primary col-12" value="제출">
+    </form>
+</div>
+{% endblock %}

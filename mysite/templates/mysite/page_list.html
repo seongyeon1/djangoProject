@@ -21,7 +21,7 @@
                     <tbody>
                     {% if page_list %}
                     {% for page in page_list %}
-                        {% if page.file.file_name == file.file_name %}
+                        {% if page.file.id == file.id %}
                         <tr class="text-center">
                             <td>{{ page.id }}</td>
                             <td>{{ page.file_name }}</td>

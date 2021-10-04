@@ -43,13 +43,16 @@ urlpatterns = [
 
     # 홈
     path('', Home.as_view(), name='home'),
+    path('intro/', Introduce.as_view(), name='introduce'),
+    path('article/', include('article.urls')),
 
     # 공지사항
     path('notice/', include('notice.urls')),
 
-    # 기술소개
-    path('intro/', Introduce.as_view(), name='introduce'),
-    path('article/', include('article.urls')),
+    # 기술설정
+    # path('notice/', include('notice.urls')),
+    path('sanction/', include('sanction.urls')),
+
 
     # 기술사용
     path('uploader/', include('uploader.urls')),

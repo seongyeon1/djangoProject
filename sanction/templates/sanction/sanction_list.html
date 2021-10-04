@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% block title %}file_list.html{% endblock %}
+{% block title %}sanction_list.html{% endblock %}
 
 {% block content %}
     {% load static %}
@@ -7,7 +7,7 @@
     <section class="py-5 bg-light">
         <div class="container px-5">
             <div class="row gx-5">
-                <h2 class="fw-bolder fs-5 mb-4">파일 리스트</h2>
+                <h2 class="fw-bolder fs-5 mb-4">제재 목록</h2>
 
                 <form action="" method="GET">
                     <div class="ms-xl-4">
@@ -27,26 +27,18 @@
                 <table class="table">
                     <thead>
                         <tr class="text-center thead-dark">
-                            <th>번호</th>
-                            <th>파일명</th>
-                            <th>시간</th>
-                            <th>임계치</th>
-                            <th style="width:30%">설명</th>
-                            <th>결과</th>
-                            <th>상태</th>
+                            <th>이름</th>
+                            <th>타입</th>
+                            <th>프로그램</th>
                         </tr>
                         {% if q %}
                         {% else %}
-                        {% if file_fixed %}
-                        {% for file in file_fixed %}
+                        {% if sanction_list_fixed %}
+                        {% for sanction in sanction_list_fixed %}
                             <tr class="text-center" style="cursor:pointer;" onclick="location.href='/mysite/{{ file.id }}/'">
-                                <td>{{ file.id }}</td>
-                                <td>{{ file.file_name }}</td>
-                                <td>{{ file.commit_date|date:'Y. m. d' }}</td>
-                                <td>{{ file.threshold }}</td>
-                                <td>{{ file.description }}</td>
-                                <td> </td>
-                                <td>{{ file.get_commit_status_display }}</td>
+                                <td>{{ sanction.sdn_name }}</td>
+                                <td>{{ sanction.sdn_type }}</td>
+                                <td>{{ sanction.program }}</td>
                             </tr>
                         {% endfor %}
                         {% endif %}
@@ -54,16 +46,12 @@
 
                     </thead>
                     <tbody>
-                    {% if file_list %}
-                    {% for file in file_list %}
+                    {% if sanction_list %}
+                    {% for sanction in sanction_list %}
                         <tr class="text-center" style="cursor:pointer;" onclick="location.href='/mysite/{{ file.id }}/'">
-                            <td>{{ file.id }}</td>
-                            <td>{{ file.file_name }}</td>
-                            <td>{{ file.commit_date|date:'Y. m. d' }}</td>
-                            <td>{{ file.threshold }}</td>
-                            <td>{{ file.description }}</td>
-                            <td> </td>
-                            <td>{{ file.get_commit_status_display }}</td>
+                            <td>{{ sanction.sdn_name }}</td>
+                            <td>{{ sanction.sdn_type }}</td>
+                            <td>{{ sanction.program }}</td>
                         </tr>
                     {% endfor %}
                     {% else %}
@@ -113,3 +101,9 @@
     </section>
 
 {% endblock %}
+</title>
+</head>
+<body>
+
+</body>
+</html>
