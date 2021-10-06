@@ -46,3 +46,18 @@ class SanctionListView(ListView):
             context['q'] = search_keyword
 
         return context
+
+class SanctionDetailView(DetailView):
+    model = SanctionMain
+    template_name = 'sanction/sanction_detail.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['sanction_address'] = SanctionAdd.objects.all()
+
+        print(context['sanction_address'])
+        return context
+
+    # def get_object(self):
+    #     object = get_object_or_404(SanctionAdd, id=self.kwargs['add_num'])
+    #     return object

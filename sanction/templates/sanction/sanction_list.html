@@ -35,7 +35,7 @@
                         {% else %}
                         {% if sanction_list_fixed %}
                         {% for sanction in sanction_list_fixed %}
-                            <tr class="text-center" style="cursor:pointer;" onclick="location.href='/mysite/{{ file.id }}/'">
+                            <tr class="text-center" style="cursor:pointer;" onclick="location.href='/sanction/{{ sanction.ent_num }}/'">
                                 <td>{{ sanction.sdn_name }}</td>
                                 <td>{{ sanction.sdn_type }}</td>
                                 <td>{{ sanction.program }}</td>
@@ -48,7 +48,7 @@
                     <tbody>
                     {% if sanction_list %}
                     {% for sanction in sanction_list %}
-                        <tr class="text-center" style="cursor:pointer;" onclick="location.href='/mysite/{{ file.id }}/'">
+                        <tr class="text-center" style="cursor:pointer;" onclick="location.href='/sanction/{{ sanction.ent_num }}/'">
                             <td>{{ sanction.sdn_name }}</td>
                             <td>{{ sanction.sdn_type }}</td>
                             <td>{{ sanction.program }}</td>

@@ -1,9 +1,10 @@
+# from django.core.validators import FileExtensionValidator
 from django.db import models
 
 class UploadFile(models.Model):
     id = models.BigAutoField(primary_key=True)
     title = models.CharField(max_length=100, null=True)
-    file = models.FileField(upload_to="upload/", blank=True)
+    file = models.FileField(upload_to="upload/")
     description = models.TextField(null=True)
 
     TYPE_CHOICES = [

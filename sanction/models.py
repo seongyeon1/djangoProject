@@ -25,7 +25,7 @@ class SanctionMain(models.Model):
 
 class SanctionAdd(models.Model):
     ent_num = models.PositiveIntegerField()
-    add_num = models.PositiveIntegerField()
+    add_num = models.PositiveIntegerField(primary_key=True)
     address = models.TextField()
     address_more = models.TextField()
     country = models.TextField()
@@ -39,7 +39,7 @@ class SanctionAdd(models.Model):
 
 class SanctionAlt(models.Model):
     ent_num = models.PositiveIntegerField()
-    alt_num = models.PositiveIntegerField()
+    alt_num = models.PositiveIntegerField(primary_key=True)
     alt_type = models.TextField()
     alt_remarks = models.TextField()
 

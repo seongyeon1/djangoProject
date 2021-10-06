@@ -10,9 +10,9 @@ def uploadfile(request):
         type = request.POST['type']
         uploadfile = UploadFile(
             title = title,
-            description=description,
-            file=file,
-            type=type,
+            description = description,
+            file = file,
+            type = type,
         )
         uploadfile.save()
         return redirect('uploader:uploader')

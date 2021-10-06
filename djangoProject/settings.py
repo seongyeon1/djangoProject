@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'sanction.apps.SanctionConfig',
     'uploader.apps.UploaderConfig',
 
+    'PIL',
     'bootstrap4',
     'drf_yasg',
     
@@ -60,7 +61,6 @@ MIDDLEWARE = [
 
     'whitenoise.middleware.WhiteNoiseMiddleware',
     'corsheaders.middleware.CorsMiddleware',
-
 ]
 
 ROOT_URLCONF = 'djangoProject.urls'

@@ -1,5 +1,7 @@
 from django.db import models
 
+from django.urls import reverse
+
 import os
 import uuid
 from django.conf import settings
@@ -31,6 +33,9 @@ class Page(models.Model):
     file = models.ForeignKey(File, related_name="file", on_delete=models.CASCADE, db_column="file")
     is_safe = models.BooleanField(verbose_name='안전여부', default=False)
     box_json = models.CharField(max_length=128)
+
+    def get_absolute_url(self):
+        return reverse('mysite:page_detail', kwargs={'pk':self.pk})
 
     def __str__(self):
         return self.file.file_name

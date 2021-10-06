@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% block title %}sanction_list.html{% endblock %}
+
+{% block content %}
+    {% load static %}
+    <!-- Page Content-->
+    <section class="py-5 bg-light">
+        <div class="container px-5">
+            <div class="row gx-5">
+                <h2 class="fw-bolder fs-5 mb-4">{{ sanction.sdn_name }}</h2>
+                <h4>{{ sanction.sdn_type }}</h4>
+                <h4>{{ sanction.program }}</h4>
+
+                {% if sanctionmain.ent_num == sanction_address.ent_num %}
+                    {% if sanction_address.address %}
+                        <h4>{{ sanction_address.address }}</h4>
+                    {% endif %}
+                    {% if sanction_address.address_more %}
+                        <h4>{{ sanction_address.address_more }}</h4>
+                    {% endif %}
+                {% endif %}
+            </div>
+        </div>
+    </section>
+
+{% endblock %}

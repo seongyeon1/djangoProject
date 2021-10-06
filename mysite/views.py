@@ -62,7 +62,6 @@ class FilePageListView(DetailView):
         return context
 
 
-
 # class FilePageListView(ListView):
 #     model = Page
 #     template_name = 'mysite/page_list.html'  #DEFAULT : <app_label>/<model_name>_list.html

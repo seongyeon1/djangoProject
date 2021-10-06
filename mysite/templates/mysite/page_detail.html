@@ -3,5 +3,48 @@
 
 {% block content %}
     {% load static %}
+    <!-- Page Content-->
+    <section class="py-5">
+        <div class="container px-5 my-5">
+            <div class="row gx-5">
+                <div class="col-lg-8">
+                    <article>
+                        <header class="mb-4">
+                            <h2 class="fw-bolder fs-5 mb-4">결과 상세 화면</h2>
+                        </header>
+                        <figure class="mb-4"><img class="image" src="{% static 'upload/6-1.PNG' %}"/></figure>
+                    </article>
+
+                </div>
+                <div class="col-lg-4">
+                    <div class="d-flex align-items-center mt-lg-5 mb-4">
+                        <a href="#" class="btn btn-warning btn-icon-split">
+                            <span class="icon text-white-50">
+                                <i class="fas fa-exclamation-triangle"></i>
+                            </span>
+                            <span class="text">다운로드</span>
+                        </a>
+                    </div>
+                    <div class="card mb-4">
+                        <div class="card-header">
+                            최종결론
+                        </div>
+                        <div class="card-body">
+                            ddd
+                        </div>
+                    </div>
+                    <div class="card mb-4">
+                        <div class="card-header">
+                            판단근거
+                        </div>
+                        <div class="card-body">
+                            ddd
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
 
 {% endblock %}
