@@ -42,8 +42,8 @@ INSTALLED_APPS = [
     'mysite.apps.MysiteConfig',
     'sanction.apps.SanctionConfig',
     'uploader.apps.UploaderConfig',
+    'threshold.apps.ThresholdConfig',
 
-    'PIL',
     'bootstrap4',
     'drf_yasg',
     

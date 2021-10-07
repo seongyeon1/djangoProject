@@ -14,8 +14,9 @@ class FileAdmin(admin.ModelAdmin):
 class PageAdmin(admin.ModelAdmin):
     list_display = (
         'id',
-        'is_safe',
         'file',
+        'page_num',
+        'is_safe',
         )
     search_fields = ('file_name',)
 

@@ -23,7 +23,7 @@
                     {% for page in page_list %}
                         {% if page.file.id == file.id %}
                         <tr class="text-center">
-                            <td><a href="{{ page.get_absolute_url }}">{{ page.id }}</a></td>
+                            <td><a href="{{ page.get_absolute_url }}">{{ page.page_num }}</a></td>
                             <td>{{ page.file_name }}</td>
                             <td>{{ page.is_safe }}</td>
                         </tr>

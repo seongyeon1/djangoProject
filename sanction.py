@@ -8,28 +8,28 @@ django.setup()
 
 from sanction.models import *  # django.setup() 이후에 임포트해야 오류가 나지 않음
 
-# CSV_PATH_PRODUCTS = './docs/sanctionlist/main.csv'
-#
-# with open(CSV_PATH_PRODUCTS) as in_file:
-#         data_reader = csv.reader(in_file)
-#         next(data_reader, None)  # 출력시 함께 출력되는 맨첫줄을 제외하고 출력하기 위함
-#         bulk_list = []
-#         for row in data_reader:
-#                 bulk_list.append(SanctionMain(
-#                         ent_num=row[1],
-#                         sdn_name=row[2],
-#                         sdn_type=row[3],
-#                         program=row[4],
-#                         title=row[5],
-#                         call_sign=row[6],
-#                         vess_type=row[7],
-#                         tonnage=row[8],
-#                         grt=row[9],
-#                         vess_flag=row[10],
-#                         vess_owner=row[11],
-#                         remarks=row[12],
-#                         is_sdn=row[13]))
-#         SanctionMain.objects.bulk_create(bulk_list)
+CSV_PATH_PRODUCTS = './docs/sanctionlist/main.csv'
+
+with open(CSV_PATH_PRODUCTS) as in_file:
+        data_reader = csv.reader(in_file)
+        next(data_reader, None)  # 출력시 함께 출력되는 맨첫줄을 제외하고 출력하기 위함
+        bulk_list = []
+        for row in data_reader:
+                bulk_list.append(SanctionMain(
+                        ent_num=row[1],
+                        sdn_name=row[2],
+                        sdn_type=row[3],
+                        program=row[4],
+                        title=row[5],
+                        call_sign=row[6],
+                        vess_type=row[7],
+                        tonnage=row[8],
+                        grt=row[9],
+                        vess_flag=row[10],
+                        vess_owner=row[11],
+                        remarks=row[12],
+                        is_sdn=row[13]))
+        SanctionMain.objects.bulk_create(bulk_list)
 
 CSV_PATH_PRODUCTS = './docs/sanctionlist/add.csv'
 

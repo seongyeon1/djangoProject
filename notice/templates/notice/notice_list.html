@@ -21,7 +21,7 @@
                     <tbody>
                     {% if notice_list %}
                     {% for notice in notice_list %}
-                        <tr class="text-center">
+                        <tr class="text-center" style="cursor:pointer;" onclick="location.href='/notice/{{ notice.pk }}/'">
                             <td>{{ notice.title }}</td>
                             <td>{{ notice.writer }}</td>
                             <td>{{ notice.registered_date|date:'Y. m. d' }}</td>

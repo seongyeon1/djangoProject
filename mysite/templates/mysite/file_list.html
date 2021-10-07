@@ -39,7 +39,7 @@
                         {% else %}
                         {% if file_fixed %}
                         {% for file in file_fixed %}
-                            <tr class="text-center" style="cursor:pointer;" onclick="location.href='/mysite/{{ file.id }}/'">
+                            <tr class="text-center" style="cursor:pointer;" onclick="location.href='/mysite/{{ page.id }}/'">
                                 <td>{{ file.id }}</td>
                                 <td>{{ file.file_name }}</td>
                                 <td>{{ file.commit_date|date:'Y. m. d' }}</td>

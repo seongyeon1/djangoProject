@@ -49,32 +49,34 @@ class FileListView(ListView):
 
         return context
 
-class FilePageListView(DetailView):
-    model = File
-    paginate_by = 8
-    template_name = 'mysite/page_list.html'
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['page_list'] = Page.objects.all()
-
-        print(context['page_list'])
-        return context
-
-
-# class FilePageListView(ListView):
-#     model = Page
-#     template_name = 'mysite/page_list.html'  #DEFAULT : <app_label>/<model_name>_list.html
-#     context_object_name = 'page_list'        #DEFAULT : <model_name>_list
-#
-#     def get_queryset(self):
-#         self.file = get_object_or_404(File, file_name=self.kwargs['file'])
-#         return Page.objects.filter(file=self.file)
+# class FilePageListView(DetailView):
+#     model = File
+#     paginate_by = 8
+#     template_name = 'mysite/page_list.html'
 #
 #     def get_context_data(self, **kwargs):
 #         context = super().get_context_data(**kwargs)
-#         context['file'] = self.file
+#         context['page_list'] = Page.objects.all()
+#
+#         print(context['page_list'])
 #         return context
+
+
+class FilePageListView(ListView):
+    model = Page
+    template_name = 'mysite/page_list.html'  #DEFAULT : <app_label>/<model_name>_list.html
+    context_object_name = 'page_list'        #DEFAULT : <model_name>_list
+
+    def get_queryset(self):
+        print('ddd')
+        print(str(self.kwargs))
+        self.file = get_object_or_404(File, file=self.kwargs['pk'])
+        return Page.objects.filter(file=self.file)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['file'] = self.file
+        return context
 
 class PageDetailView(DetailView):
     model = Page

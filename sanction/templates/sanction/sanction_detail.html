@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% block title %}sanction_list.html{% endblock %}
+{% block title %}sanction_detail.html{% endblock %}
 
 {% block content %}
     {% load static %}
@@ -7,20 +7,37 @@
     <section class="py-5 bg-light">
         <div class="container px-5">
             <div class="row gx-5">
-                <h2 class="fw-bolder fs-5 mb-4">{{ sanction.sdn_name }}</h2>
-                <h4>{{ sanction.sdn_type }}</h4>
-                <h4>{{ sanction.program }}</h4>
+                <h2 class="fw-bolder fs-5 mb-4">제재명 : {{ sanctionmain.sdn_name }}</h2>
+                {% if sanctionmain.sdn_type %}
+                    <h4>타입 : {{ sanctionmain.sdn_type }}</h4>
+                {% endif %}
+                <h4>프로그램 : {{ sanctionmain.program }}</h4>
 
-                {% if sanctionmain.ent_num == sanction_address.ent_num %}
-                    {% if sanction_address.address %}
-                        <h4>{{ sanction_address.address }}</h4>
-                    {% endif %}
-                    {% if sanction_address.address_more %}
-                        <h4>{{ sanction_address.address_more }}</h4>
+            {% for address in sanction_address %}
+                {% if address.ent_num == sanctionmain.ent_num %}
+                    {% if address.address %}
+                        <h4>주소 : {{ address.address }}
+                        {% if address.address_more %}
+                            {{ address.address_more }}
+                            {% if address.country %}
+                                {{ address.country }}</h4>
+                            {% endif %}
+                        {% endif %}
+                    {% else %}
+                        {% if address.address_more %}
+                        <h4>주소 : {{ address.address_more }}
+                            {% if address.country %}
+                                {{ address.country }}</h4>
+                            {% endif %}
+                        {% else %}
+                            {% if address.country %}
+                            <h4>국가명 : {{ address.country }}</h4>
+                            {% endif %}
+                        {% endif %}
                     {% endif %}
                 {% endif %}
+            {% endfor %}
             </div>
         </div>
     </section>
-
 {% endblock %}

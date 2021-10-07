@@ -74,3 +74,4 @@ class NoticeList(ListView):
 
 class NoticeDetail(DetailView):
     model = Notice
+    template_name = 'notice/notice_detail.html'

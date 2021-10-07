@@ -1,5 +1,3 @@
-from django.db import models
-
 from django.urls import reverse
 
 import os
@@ -30,7 +28,8 @@ class File(models.Model):
 
 class Page(models.Model):
     id = models.BigAutoField(help_text="Page ID", primary_key=True)
-    file = models.ForeignKey(File, related_name="file", on_delete=models.CASCADE, db_column="file")
+    page_num = models.PositiveIntegerField(verbose_name='페이지')
+    file = models.ForeignKey(File, verbose_name='파일', related_name="file", on_delete=models.CASCADE, db_column="file")
     is_safe = models.BooleanField(verbose_name='안전여부', default=False)
     box_json = models.CharField(max_length=128)
 

@@ -7,8 +7,6 @@
     <section class="py-5 bg-light">
         <div class="container px-5">
             <div class="row gx-5">
-                <h2 class="fw-bolder fs-5 mb-4">공지사항</h2>
-
                 <!--본문-->
                 <div class="card" style="width: 100%;">
                     <!--제목,분류,작성일-->
@@ -23,12 +21,6 @@
                             <span style="float:right;">조회수 : {{ notice.hits }}</span>
                         </div>
                         <hr>
-                        {% if notice.upload_files %}
-                        <div class="col-12 text-right">
-                            <span style="color: gray;">첨부파일 :&nbsp;</span>
-                            <a id="id_uploaded_file" href="{% url 'notice:notice_download' notice.id %}" >{{ notice.filename|truncatechars:25 }}</a>
-                        </div>
-                        {% endif %}
                         <!--내용-->
                         <div>
                             {{ notice.content | safe }}

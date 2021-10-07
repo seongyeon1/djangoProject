@@ -4,7 +4,7 @@ from django.db import models
 class UploadFile(models.Model):
     id = models.BigAutoField(primary_key=True)
     title = models.CharField(max_length=100, null=True)
-    file = models.FileField(upload_to="upload/")
+    file = models.FileField(upload_to="upload/", validators=[FileExtensionValidator(allowed_extensions=['tif'])])
     description = models.TextField(null=True)
 
     TYPE_CHOICES = [

@@ -31,9 +31,6 @@ class SanctionAdd(models.Model):
     country = models.TextField()
     add_remarks = models.TextField()
 
-    def __str__(self):
-        return self.address
-
     class Meta:
         db_table = 'sanction_add'
 

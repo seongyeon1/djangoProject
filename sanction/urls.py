@@ -5,5 +5,5 @@ app_name = 'sanction'
 
 urlpatterns = [
     path('', views.SanctionListView.as_view(), name='index'),
-    # path('<int:id>/', views.SanctionDetailView.as_view(), name='detail'),
+    path('<int:pk>/', views.SanctionDetailView.as_view(), name='detail'),
 ]

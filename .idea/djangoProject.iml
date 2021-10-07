@@ -33,6 +33,8 @@
         <option value="$MODULE_DIR$/notice/templates" />
         <option value="$MODULE_DIR$/mysite/templates" />
         <option value="$MODULE_DIR$/uploader/templates" />
+        <option value="$MODULE_DIR$/threshold/templates" />
+        <option value="$MODULE_DIR$/sanction/templates" />
       </list>
     </option>
   </component>

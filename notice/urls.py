@@ -5,5 +5,5 @@ app_name = 'notice'
 
 urlpatterns = [
     path('', views.NoticeList.as_view(), name='index'),
-    # path('<str:title>/', views.NoticeDetail.as_view(), name='detail'),
+    path('<int:pk>/', views.NoticeDetail.as_view(), name='detail'),
 ]

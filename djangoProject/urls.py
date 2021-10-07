@@ -50,7 +50,7 @@ urlpatterns = [
     path('notice/', include('notice.urls')),
 
     # 기술설정
-    # path('notice/', include('notice.urls')),
+    path('threshold/', include('threshold.urls')),
     path('sanction/', include('sanction.urls')),
 
 

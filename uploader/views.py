@@ -8,6 +8,8 @@ def uploadfile(request):
         description = request.POST['description']
         file = request.FILES['file']
         type = request.POST['type']
+
+        # 모델에서 view로 가져온다
         uploadfile = UploadFile(
             title = title,
             description = description,
