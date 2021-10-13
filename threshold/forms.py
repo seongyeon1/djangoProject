@@ -1,7 +1,7 @@
-from django.forms import ModelForm
+from django import forms
 from .models import SetThreshold
 
-class SetThresholdForm(ModelForm):
+class SetThresholdForm(forms.ModelForm):
     class Meta:
         model = SetThreshold
         fields = ['threshold',]

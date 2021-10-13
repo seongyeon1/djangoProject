@@ -22,7 +22,7 @@
                 </li>
 
                 <li class="nav-item"><a class="nav-link" href="{% url 'uploader:uploader' %}">기술사용</a></li>
-                <li class="nav-item"><a class="nav-link" href="{% url 'mysite:file_list' %}">마이페이지</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'mysite:page_list' %}">마이페이지</a></li>
                 <li class="nav-item">
                     {% if user.is_authenticated %}
                     <a class="nav-link" href="{% url 'account:logout' %}">{{ user.username }} (로그아웃)</a>

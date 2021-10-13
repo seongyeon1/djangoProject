@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load bootstrap4 %}
+
+{% block script %}
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function(){
+        function submitFile(){
+            var fd = new FormData();
+            fd.append('file', getFile())
+            $.ajax({
+                url: "{% url 'uploader:process_image' %}", // 통신할 url을 지정
+                type: "POST",
+                data: fd,
+                processData: false,
+                contentType: false,
+                success: function(data){
+                    console.log(data.content);
+                    if(data.content){
+                        $('#content').html(
+                            "<p>" + data.content + "</p>"
+                        );
+                    }
+                }
+            })
+        }
+
+        function getFile(){
+            var fp = $("#file")
+            var item = fp[0].files
+            return item[0]
+        }
+
+        // Submit the file for OCRization
+        $("#ocrForm").on('submit', function(event){
+            event.preventDefault();
+            submitFile()
+        })
+    });
+</script>
+{% endblock %}
+
+{% block content %}
+<div style="text-align: center;">
+    <form enctype="multipart/form-data" id="ocrForm" action="{% url 'uploader:uploader' %}" method="post"> <!-- Do not forget to add: enctype="multipart/form-data" -->
+        {% csrf_token %}
+        {% bootstrap_form form %}
+        <button type="submit" class="btn btn-success">OCRzed</button>
+    </form>
+
+    <br><br><hr>
+    <div id="content" style="width: 50%; margin: 0 auto;">
+
+    </div>
+</div>
+{% endblock %}

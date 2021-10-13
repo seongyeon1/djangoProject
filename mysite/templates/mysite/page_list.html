@@ -7,15 +7,14 @@
     <section class="py-5 bg-light">
         <div class="container px-5">
             <div class="row gx-5">
-                <h2 class="fw-bolder fs-5 mb-4">{{ file.file_name }}</h2>
-                <h4>{{ file.description }}</h4>
 
                 <table class="table">
                     <thead>
                         <tr class="text-center thead-dark">
                             <th>번호</th>
-                            <th>%</th>
+                            <th>제목</th>
                             <th>결과</th>
+                            <th>작성자</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -24,8 +23,16 @@
                         {% if page.file.id == file.id %}
                         <tr class="text-center">
                             <td><a href="{{ page.get_absolute_url }}">{{ page.page_num }}</a></td>
-                            <td>{{ page.file_name }}</td>
-                            <td>{{ page.is_safe }}</td>
+                            <td>{{ page.title }}</td>
+                            <td>
+                            {% for sanction in sanction_list %}
+                                {% if sanction in page.content %}
+                                    <p>위험요소발견</p>
+                                {% endif %}
+                            {% endfor %}
+                            {{ result }}
+                            </td>
+                            <td>{{ page.writer }}</td>
                         </tr>
                         {% endif %}
                     {% endfor %}
