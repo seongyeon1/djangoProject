@@ -3,6 +3,8 @@ from .models import *
 from django.contrib import messages
 from django.db.models import Q
 
+import jellyfish
+
 class SanctionListView(ListView):
     model = SanctionMain
     paginate_by = 8
@@ -13,11 +15,12 @@ class SanctionListView(ListView):
         search_keyword = self.request.GET.get('q', '')
         sanction_list = SanctionMain.objects.order_by('ent_num')
 
+        search_sanction_list = []
         if search_keyword:
             if len(search_keyword) > 1:
-                search_sanction_list = sanction_list.filter(
-                    Q(sdn_name__icontains=search_keyword)
-                )
+                for s in sanction_list:
+                    if jellyfish.jaro_winkler(s.sdn_name, search_keyword.upper()) > 0.8:
+                        search_sanction_list.append(s)
                 return search_sanction_list
             else:
                 messages.error(self.request, '검색어는 2글자 이상 입력해주세요.')

@@ -30,6 +30,7 @@
                             <th>이름</th>
                             <th>타입</th>
                             <th>프로그램</th>
+                            <th>점수</th>
                         </tr>
                         {% if q %}
                         {% else %}
@@ -39,6 +40,7 @@
                                 <td>{{ sanction.sdn_name }}</td>
                                 <td>{{ sanction.sdn_type }}</td>
                                 <td>{{ sanction.program }}</td>
+                                <td>{{ score }}</td>
                             </tr>
                         {% endfor %}
                         {% endif %}

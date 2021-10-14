@@ -5,4 +5,5 @@ class SetThreshold(models.Model):
     threshold = models.PositiveIntegerField(verbose_name='임계치')
     set_date = models.DateTimeField(verbose_name='등록시간', default=timezone.now)
 
-    # user 정보가져오기
+    def __str__(self):
+        return str(self.threshold)

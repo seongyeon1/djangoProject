@@ -19,23 +19,18 @@
                     </thead>
                     <tbody>
                     {% if page_list %}
-                    {% for page in page_list %}
-                        {% if page.file.id == file.id %}
-                        <tr class="text-center">
-                            <td><a href="{{ page.get_absolute_url }}">{{ page.page_num }}</a></td>
-                            <td>{{ page.title }}</td>
-                            <td>
-                            {% for sanction in sanction_list %}
-                                {% if sanction in page.content %}
-                                    <p>위험요소발견</p>
-                                {% endif %}
-                            {% endfor %}
-                            {{ result }}
-                            </td>
-                            <td>{{ page.writer }}</td>
-                        </tr>
-                        {% endif %}
-                    {% endfor %}
+                        {% for page in page_list %}
+
+                            <tr class="text-center">
+                                <td><a href="{{ page.get_absolute_url }}">{{ page.page_num }}</a></td>
+                                <td>{{ page.title }}</td>
+                                <td>
+                                {{ result }}
+                                </td>
+                                <td>{{ page.writer }}</td>
+                            </tr>
+
+                        {% endfor %}
                     {% else %}
                         <tr>
                             <td colspan="3">파일이 없습니다.</td>

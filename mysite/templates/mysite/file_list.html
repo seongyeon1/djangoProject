@@ -28,44 +28,43 @@
                     <thead>
                         <tr class="text-center thead-dark">
                             <th>번호</th>
-                            <th>파일명</th>
+                            <th style="width:20%">파일명</th>
                             <th>시간</th>
                             <th>임계치</th>
                             <th style="width:30%">설명</th>
-                            <th>결과</th>
+                            <th>작성자</th>
                             <th>상태</th>
                         </tr>
                         {% if q %}
-                        {% else %}
-                        {% if file_fixed %}
-                        {% for file in file_fixed %}
-                            <tr class="text-center" style="cursor:pointer;" onclick="location.href='/mysite/{{ page.id }}/'">
-                                <td>{{ file.id }}</td>
-                                <td>{{ file.file_name }}</td>
-                                <td>{{ file.commit_date|date:'Y. m. d' }}</td>
-                                <td>{{ file.threshold }}</td>
-                                <td>{{ file.description }}</td>
-                                <td> </td>
-                                <td>{{ file.get_commit_status_display }}</td>
-                            </tr>
-                        {% endfor %}
-                        {% endif %}
+                            {% if file_fixed %}
+                                {% for file in file_fixed %}
+                                    <tr class="text-center" style="cursor:pointer;" onclick="location.href='mysite/{{ file.filename }}'">
+                                        <td>{{ file.id }}</td>
+                                        <td>{{ file.title }}</td>
+                                        <td>{{ file.commit_date|date:'Y. m. d' }}</td>
+                                        <td>{{ file.threshold.threshold }}</td>
+                                        <td>{{ file.description }}</td>
+                                        <td>{{ file.writer }}</td>
+                                        <td>{{ file.get_commit_status_display }}</td>
+                                    </tr>
+                                {% endfor %}
+                            {% endif %}
                         {% endif %}
 
                     </thead>
                     <tbody>
                     {% if file_list %}
-                    {% for file in file_list %}
-                        <tr class="text-center" style="cursor:pointer;" onclick="location.href='/mysite/{{ file.id }}/'">
-                            <td>{{ file.id }}</td>
-                            <td>{{ file.file_name }}</td>
-                            <td>{{ file.commit_date|date:'Y. m. d' }}</td>
-                            <td>{{ file.threshold }}</td>
-                            <td>{{ file.description }}</td>
-                            <td> </td>
-                            <td>{{ file.get_commit_status_display }}</td>
-                        </tr>
-                    {% endfor %}
+                        {% for file in file_list %}
+                            <tr class="text-center" style="cursor:pointer;" onclick="location.href='{{ file.filename }}'">
+                                <td>{{ file.id }}</td>
+                                <td>{{ file.title }}</td>
+                                <td>{{ file.commit_date|date:'Y. m. d' }}</td>
+                                <td>{{ file.threshold.threshold }}</td>
+                                <td>{{ file.description }}</td>
+                                <td>{{ file.writer }}</td>
+                                <td>{{ file.get_commit_status_display }}</td>
+                            </tr>
+                        {% endfor %}
                     {% else %}
                         <tr>
                             <td colspan="3">파일이 없습니다.</td>
