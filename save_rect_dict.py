@@ -1,18 +1,15 @@
 import json
 import cv2
-import numpy as np
-import matplotlib.pyplot as plt
 from pytesseract import Output
 import pytesseract
 import re
 
-# def plot_rgb(image):
-#     plt.figure(figsize=(30, 15))
-#     return plt.imshow(cv2.cvtColor(image, cv2.COLOR_BGR2RGB))
-
+# 사진에 박스를 치는 함수입니다.
+# path : 파일경로
+# sanction_list : 검출해야하는 대상을 리스트로 받습니다
 def save_rect_dict(path, sanction_list):
-    rect = []
     image = cv2.imread(path, cv2.IMREAD_GRAYSCALE)
+    # 테서렉트를 이용해 ocr 처리를 합니다
     d = pytesseract.image_to_data(image, output_type=Output.DICT)
     n_boxes = len(d['level'])
     boxes = cv2.cvtColor(image.copy(), cv2.COLOR_BGR2RGB)
@@ -26,7 +23,8 @@ def save_rect_dict(path, sanction_list):
         if (text == '') & (len(text) < 3):
             continue
 
-        sanction_list_all = ''.join(sanction_list)
+        sanction_list_all = ' '.join(sanction_list)
+        sanction_list_all = re.sub('[^a-zA-Z0-9]', '', sanction_list_all).strip()
 
         if text in sanction_list_all:
             xmin = d['left'][i]
@@ -42,7 +40,5 @@ def save_rect_dict(path, sanction_list):
 
             rect[cnt]['uuid{}'.format(cnt)] = text
             cnt += 1
-
-    #plot_rgb(boxes)
 
     return boxes

@@ -46,7 +46,7 @@ class Page(models.Model):
     img_dir = models.TextField(blank=True, null=True, verbose_name='이미지')
     writer = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, verbose_name='작성자')
 
-    box_json = models.CharField(null=True, max_length=128)
+    box_json = models.TextField(blank=True, null=True)
     content = models.TextField(null=True, verbose_name='내용')
     is_safe = models.BooleanField(null=True, verbose_name='안전여부', default=False)
 

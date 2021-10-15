@@ -6,6 +6,7 @@ from django.contrib import messages
 from django.db.models import Q
 
 from sanction.models import *
+from threshold.models import SetThreshold
 
 class FileListView(ListView):
     model = File
@@ -127,25 +128,35 @@ class PageDetailView(DetailView):
 
         # full matching
         for sanction in sanction_list:
+            #sanction = re.sub('[^a-zA-Z0-9]', '', sanction).strip()
             if sanction in self.object.content:
                 context['result'] = '제재 대상 검출'
                 sdn_name[sanction] = 100
 
-        # docs = self.object.content.split(' ').remove('')
+        #docs = self.object.content.split(' ').remove('')
         #text = re.sub(r"[^a-zA-Z0-9 ]", "", self.object.content)
         docs = []
-        #for s in text.replace('\n\n','\n').split('\n'):
+
         for s in self.object.content.split():
-            #s= re.sub(r"[^a-zA-Z0-9 ]","", s)
+            s= re.sub(r"[^a-zA-Z0-9 ]","", s)
             docs.append(s)
 
+        r = SetThreshold.objects.raw('SELECT * FROM threshold_setthreshold ORDER BY set_date DESC LIMIT 1')[0].threshold
         for doc in docs:
             for sanction in sanction_list:
-                if jellyfish.jaro_winkler(sanction, doc) > 0.9:
+                sanction = re.sub(r"[^a-zA-Z0-9 ]","", sanction)
+                if jellyfish.jaro_winkler(sanction, doc) * 100 > r:
                     # logger.error(sanction)
                     context['result'] = '제재 대상 검출'
                     sdn_name[sanction] = round(jellyfish.jaro_winkler(sanction, doc) * 100, 2)
+                    # context['box']
 
         context['sanction'] = sdn_name.items()
 
         return context
+
+from box_canvas import tesseract_ocr_extract
+
+def box(request):
+    box = tesseract_ocr_extract(f'static/upload/{filename}_{idx + 1}.jpg')
+    return render(request, 'page_detail.html', {'box': box})

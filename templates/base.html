@@ -12,6 +12,8 @@
         <!-- Core theme CSS (includes Bootstrap)-->
         <link href="{% static 'css/styles.css' %}" rel="stylesheet" />
         <title>base.html</title>
+        {% block head %}
+        {% endblock %}
     </head>
 
     {% block script %}

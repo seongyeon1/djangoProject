@@ -1,10 +1,49 @@
 {% extends 'base.html' %}
 {% block title %}page_detail.html{% endblock %}
+{% block head %}
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.3/jspdf.min.js"></script>
+<script src="https://html2canvas.hertzen.com/dist/html2canvas.js"></script>
 
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    	function getPDF(){
+
+		var HTML_Width = $(".canvas_div_pdf").width();
+		var HTML_Height = $(".canvas_div_pdf").height();
+		var top_left_margin = 15;
+		var PDF_Width = HTML_Width+top_left_margin;
+		var PDF_Height = PDF_Width+top_left_margin;
+		var canvas_image_width = HTML_Width;
+		var canvas_image_height = HTML_Height;
+
+		var totalPDFPages = Math.ceil(HTML_Height/PDF_Height)-1;
+
+
+		html2canvas($(".canvas_div_pdf")[0],{allowTaint:true}).then(function(canvas) {
+			canvas.getContext('2d');
+
+			console.log(canvas.height+"  "+canvas.width);
+
+			var imgData = canvas.toDataURL("image/jpeg", 1.0);
+			var pdf = new jsPDF('p', 'pt',  [PDF_Width, PDF_Height]);
+		    pdf.addImage(imgData, 'JPG', top_left_margin, top_left_margin,canvas_image_width,canvas_image_height);
+
+			for (var i = 1; i <= totalPDFPages; i++) {
+				pdf.addPage(PDF_Width, PDF_Height);
+				pdf.addImage(imgData, 'JPG', top_left_margin, -(PDF_Height*i)+(top_left_margin*4),canvas_image_width,canvas_image_height);
+			}
+
+		    pdf.save("AML-Document.pdf");
+        });
+	};
+</script>
+{% endblock %}
 {% block content %}
     {% load static %}
     <!-- Page Content-->
     <section class="py-5">
+    <div class="canvas_div_pdf">
         <div class="container px-5 my-5">
             <div class="row gx-5">
                 <div class="col-lg-6">
@@ -13,37 +52,59 @@
                             <h2 class="fw-bolder fs-5 mb-4">{{ page.title }}의 {{ page.page_num }} 페이지 상세 화면</h2>
                         </header>
                         <figure class="mb-4">
-                        <canvas id="canvas" width="480" height="640" style="border:1px solid #d3d3d3;">
+                        <canvas id="canvas" width="480" height="480" style="border:1px solid #d3d3d3;">
                         Your browser does not support the HTML5 canvas tag.
                         </canvas>
                         <script type="text/javascript">
-                        window.onload = function(){
-                            var canvas = document.getElementById("canvas");
-                            if(canvas.getContext){
-                                var draw = canvas.getContext("2d");
 
-                                var img = new Image();
-                                img.src = "{% get_static_prefix %}upload/{{page.filename}}_{{page.page_num}}.box.jpg";
-                                img.onload = function(){
-                                    //이미지의 원하는 부분만 잘라서 그리기
-                                    //drawImage(이미지객체,
-                                    //        이미지의 왼위 부분x, 이미지의 왼위 부분y, 이미지의 원하는 가로크기, 이미지의 원하는 세로크기,
-                                    //        사각형 부분x, 사각형 부분y, 가로크기, 세로크기)
-                                    //draw.drawImage(img, 100,100, 300,300, 50,50, 250,300);
+                            {#var jsonArrStr = '{{ page.box_json }}';#}
+                            {#var jsonArr = JSON.parse(jsonArrStr);#}
 
-                                    //전체 이미지 그리기
-                                    //drawImage(이미지객체, 사각형 왼위 x, 사각형 왼위 y, 가로크기, 세로크기)
-                                    draw.drawImage(img, 0,0, 480,640);
-                                }
+                            var ocrInfo = {
+                                imgUrl : '{% get_static_prefix %}upload/{{page.filename}}_{{page.page_num}}.box.jpg',
+                                ocrLoc : [{x: 80, y: 60, w: 20, h: 4, color: "red", text: "CIMEX", "conf": "84.048775"}]
                             }
-                        }
+                            /**
+                            * Canvas 설정
+                            */
+                            var setCanvas = function(ocrInfo){
+                            var canvas = document.getElementById('canvas');
+                                if (canvas.getContext) {
+
+                                    var ctx = canvas.getContext('2d');
+                                    var imageObj = new Image();
+                                    imageObj.onload = function () {
+                                        canvas.width=480;
+                                        canvas.height=480;
+                                        ctx.drawImage(imageObj, 0, 0, 480, 480);
+
+                                        // multi boxing 처리
+                                        $.each(ocrInfo.ocrLoc, function(key, item){
+                                            ctx.strokeStyle = item.color;
+                                            ctx.lineWidth = 3;
+                                            ctx.strokeRect(item.x, item.y, item.w, item.h);
+
+                                            // Text 처리
+                                            ctx.textBaseline = 'top';
+                                            ctx.font="13px Verdana";
+                                            ctx.fillStyle = "white";
+                                            ctx.fillText(item.text, item.x, item.y + item.h + 5);
+                                            ctx.fill();
+                                        });
+                                    };
+                                    imageObj.src = ocrInfo.imgUrl;
+                                    }
+                            };
+                            // set Canvas
+                            setCanvas(ocrInfo);
                         </script>
                         </figure>
                     </article>
 
                 </div>
+
                 <div class="col-lg-5">
-                    <div class="d-flex align-items-center mt-lg-4 mb-4">
+                    <div onclick="getPDF()" class="d-flex align-items-center mt-lg-4 mb-4">
                         <a href="#" class="btn btn-warning btn-icon-split">
                             <span class="icon text-white-50">
                                 <i class="fas fa-exclamation-triangle"></i>
@@ -80,7 +141,6 @@
                 </div>
             </div>
         </div>
+    </div>
     </section>
-
-
 {% endblock %}
