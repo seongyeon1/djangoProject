@@ -1,5 +1,5 @@
 import cv2
-import os
+import os, re
 
 import pytesseract  # ======= > Add
 import simplejson
@@ -19,7 +19,7 @@ except:
 
 pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
 
-from save_rect_dict import save_rect_dict
+import jellyfish
 from box_canvas import tesseract_ocr_extract
 
 # 파일 업로드 (tif 확장자만 허용)
@@ -60,13 +60,43 @@ def uploadfile(request):
             cv2.imwrite(f'static/upload/{filename}_{idx + 1}.jpg', img)
             # 페이지 이미지 열기
             img = Image.open(f'static/upload/{filename}_{idx + 1}.jpg')
+            # 테서렉트를 이용해서 이미지에서 글자 추출
             content = pytesseract.image_to_string(img, lang='eng')
+
+            # 글자와 비교할 제재 목록 가져오기
             sanction_list = SanctionMain.objects.all().values_list('sdn_name', flat=True)
 
-            box = save_rect_dict(f'static/upload/{filename}_{idx + 1}.jpg', sanction_list)
-            cv2.imwrite(f'static/upload/{filename}_{idx + 1}.box.jpg', box)
+            # 사진에 바로 BOX 쳐서 저장하고 싶은경우 -> SANCTION LIST에 들어가 있는 TEXT 박스쳐서 저장
+            # box = save_rect_dict(f'static/upload/{filename}_{idx + 1}.jpg', sanction_list)
+            # cv2.imwrite(f'static/upload/{filename}_{idx + 1}.box.jpg', box)
 
-            json_list = tesseract_ocr_extract(f'static/upload/{filename}_{idx + 1}.jpg', sanction_list)
+            # box list
+            box = {}
+            sdn_name = {}
+            # full matching
+            for sanction in sanction_list:
+                if sanction in content:
+                    sdn_name[sanction] = 100
+                    box[sanction] = 100
+
+            docs = []
+            for s in content.split():
+                s = re.sub(r"[^a-zA-Z0-9 ]", "", s)
+                if len(s) > 2:
+                    docs.append(s)
+
+            # 임계치 데이터를 가져옴
+            r = threshold[0].threshold
+            for doc in docs:
+                for sanction in sanction_list:
+                    sanction = re.sub(r"[^a-zA-Z0-9 ]", "", sanction)
+                    if jellyfish.jaro_winkler(sanction, doc) * 100 > r:
+                        score = round(jellyfish.jaro_winkler(sanction, doc) * 100, 0)
+                        sdn_name[sanction] = score
+                        box[doc] = score
+
+            result = box
+            json_list = tesseract_ocr_extract(f'static/upload/{filename}_{idx + 1}.jpg', result)
             f = File.objects.get(filename=filename)
             Page(
                 file=f,
@@ -75,7 +105,7 @@ def uploadfile(request):
                 filename=filename,
                 page_num=idx + 1,
                 box_json=json_list,
-                content=content,
+                content=result,
                 ).save()
 
         return redirect('uploader:uploader')

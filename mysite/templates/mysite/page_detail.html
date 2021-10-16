@@ -7,34 +7,32 @@
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
-    	function getPDF(){
+    function getPDF(){
 
-		var HTML_Width = $(".canvas_div_pdf").width();
-		var HTML_Height = $(".canvas_div_pdf").height();
-		var top_left_margin = 15;
-		var PDF_Width = HTML_Width+top_left_margin;
-		var PDF_Height = PDF_Width+top_left_margin;
-		var canvas_image_width = HTML_Width;
-		var canvas_image_height = HTML_Height;
+    var HTML_Width = $(".canvas_div_pdf").width();
+    var HTML_Height = $(".canvas_div_pdf").height();
+    var top_left_margin = 15;
+    var PDF_Width = HTML_Width+top_left_margin;
+    var PDF_Height = PDF_Width+top_left_margin;
+    var canvas_image_width = HTML_Width;
+    var canvas_image_height = HTML_Height;
 
-		var totalPDFPages = Math.ceil(HTML_Height/PDF_Height)-1;
+    var totalPDFPages = Math.ceil(HTML_Height/PDF_Height)-1;
 
+    html2canvas($(".canvas_div_pdf")[0],{allowTaint:true}).then(function(canvas) {
+        canvas.getContext('2d');
 
-		html2canvas($(".canvas_div_pdf")[0],{allowTaint:true}).then(function(canvas) {
-			canvas.getContext('2d');
+        console.log(canvas.height+"  "+canvas.width);
 
-			console.log(canvas.height+"  "+canvas.width);
+        var imgData = canvas.toDataURL("image/jpeg", 1.0);
+        var pdf = new jsPDF('p', 'pt',  [PDF_Width, PDF_Height]);
+        pdf.addImage(imgData, 'JPG', top_left_margin, top_left_margin,canvas_image_width,canvas_image_height);
 
-			var imgData = canvas.toDataURL("image/jpeg", 1.0);
-			var pdf = new jsPDF('p', 'pt',  [PDF_Width, PDF_Height]);
-		    pdf.addImage(imgData, 'JPG', top_left_margin, top_left_margin,canvas_image_width,canvas_image_height);
-
-			for (var i = 1; i <= totalPDFPages; i++) {
-				pdf.addPage(PDF_Width, PDF_Height);
-				pdf.addImage(imgData, 'JPG', top_left_margin, -(PDF_Height*i)+(top_left_margin*4),canvas_image_width,canvas_image_height);
-			}
-
-		    pdf.save("AML-Document.pdf");
+        for (var i = 1; i <= totalPDFPages; i++) {
+            pdf.addPage(PDF_Width, PDF_Height);
+            pdf.addImage(imgData, 'JPG', top_left_margin, -(PDF_Height*i)+(top_left_margin*4),canvas_image_width,canvas_image_height);
+        }
+        pdf.save("AML-Document.pdf");
         });
 	};
 </script>
@@ -43,26 +41,28 @@
     {% load static %}
     <!-- Page Content-->
     <section class="py-5">
-    <div class="canvas_div_pdf">
-        <div class="container px-5 my-5">
+    <div class="container px-5 my-5">
+        <-- PDF 저장시 표시 되는 공간입니다 -->
+        <div class="canvas_div_pdf">
             <div class="row gx-5">
                 <div class="col-lg-6">
                     <article>
                         <header class="mb-4">
                             <h2 class="fw-bolder fs-5 mb-4">{{ page.title }}의 {{ page.page_num }} 페이지 상세 화면</h2>
                         </header>
+
+                        <-- 캔버스에 SANCTION LIST 박스처리 -->
                         <figure class="mb-4">
-                        <canvas id="canvas" width="480" height="480" style="border:1px solid #d3d3d3;">
-                        Your browser does not support the HTML5 canvas tag.
+                        <canvas id="canvas" width="480" height="640" style="border:1px solid #d3d3d3;">
+                            Your browser does not support the HTML5 canvas tag.
                         </canvas>
                         <script type="text/javascript">
-
-                            {#var jsonArrStr = '{{ page.box_json }}';#}
-                            {#var jsonArr = JSON.parse(jsonArrStr);#}
+                            var jsonArrStr = '{{ page.box_json |safe|escape}}';
+                            var jsonArr = JSON.parse(jsonArrStr);
 
                             var ocrInfo = {
-                                imgUrl : '{% get_static_prefix %}upload/{{page.filename}}_{{page.page_num}}.box.jpg',
-                                ocrLoc : [{x: 80, y: 60, w: 20, h: 4, color: "red", text: "CIMEX", "conf": "84.048775"}]
+                                imgUrl : '{% get_static_prefix %}upload/{{page.filename}}_{{page.page_num}}.jpg',
+                                ocrLoc : jsonArr
                             }
                             /**
                             * Canvas 설정
@@ -74,21 +74,24 @@
                                     var ctx = canvas.getContext('2d');
                                     var imageObj = new Image();
                                     imageObj.onload = function () {
-                                        canvas.width=480;
-                                        canvas.height=480;
-                                        ctx.drawImage(imageObj, 0, 0, 480, 480);
+                                        // 원본 너비와 높이를 구해서 박스값 변환하는데 사용합니다.
+                                        var originWidth = this.width;
+                                        var originHeight = this.height;
 
-                                        // multi boxing 처리
+                                        canvas.width=480;
+                                        canvas.height=640;
+                                        ctx.drawImage(imageObj, 0, 0, 480, 640);
+                                        // multi boxing 처리 (480 * 640 사이즈에 맞도록 변환)
                                         $.each(ocrInfo.ocrLoc, function(key, item){
                                             ctx.strokeStyle = item.color;
-                                            ctx.lineWidth = 3;
-                                            ctx.strokeRect(item.x, item.y, item.w, item.h);
+                                            ctx.lineWidth = 2;
+                                            ctx.strokeRect(item.x*(480/originWidth), item.y*(640/originHeight), item.w*(480/originWidth), item.h*(640/originHeight));
 
                                             // Text 처리
                                             ctx.textBaseline = 'top';
-                                            ctx.font="13px Verdana";
-                                            ctx.fillStyle = "white";
-                                            ctx.fillText(item.text, item.x, item.y + item.h + 5);
+                                            ctx.font="11px Verdana";
+                                            ctx.fillStyle = "red";
+                                            ctx.fillText(item.text, item.x*(480/originWidth), item.y*(640/originHeight) + item.h*(640/originHeight) + 5);
                                             ctx.fill();
                                         });
                                     };

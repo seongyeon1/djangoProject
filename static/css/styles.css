@@ -87,6 +87,11 @@ body {
   -webkit-text-size-adjust: 100%;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 }
+.footer {
+        width:100%;
+        bottom: 0;
+        position: absolute;
+    }
 
 hr {
   margin: 1rem 0;
@@ -11272,12 +11277,4 @@ textarea.form-control-lg {
   .d-print-none {
     display: none !important;
   }
-}
-.feature {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  height: 4rem;
-  width: 4rem;
-  font-size: 2rem;
 }

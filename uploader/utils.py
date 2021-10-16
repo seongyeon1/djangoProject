@@ -1,6 +1,7 @@
 import os
 from uuid import uuid4
 
+# 파일이름을 uuid로 바꿔서 저장
 def rename_file_to_uuid(instance, filename):
     upload_to = f'upload/'
     ext = filename.split('.')[-1]

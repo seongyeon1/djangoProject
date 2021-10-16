@@ -10,13 +10,6 @@ class UploadFile(models.Model):
     file = models.FileField(null=True, blank=True, upload_to=rename_file_to_uuid, validators=[FileExtensionValidator(allowed_extensions=['tif','jpeg'])])
     description = models.TextField(null=True)
     writer = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, verbose_name='작성자')
-
-    # TYPE_CHOICES = [
-    #     ('Type1', 'type1'),
-    #     ('Type2', 'type2'),
-    #     ('Type3', 'type3'),
-    # ]
-    # type = models.CharField(max_length=50, choices=TYPE_CHOICES)
     uploaded_date = models.DateTimeField(auto_now_add=True, verbose_name='등록시간')
 
     def __str__(self):

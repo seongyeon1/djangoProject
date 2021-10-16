@@ -105,24 +105,12 @@ logger = logging.getLogger(__name__)
 class PageDetailView(DetailView):
     model = Page
     template_name = 'mysite/page_detail.html'
-    sanction_list = SanctionMain.objects.all().values_list('sdn_name', flat=True)
 
-    # def get_context_data(self, **kwargs):
-    #     context = super().get_context_data(**kwargs)
-    #     sanction_list = SanctionMain.objects.all().values_list('sdn_name', flat=True)
-    #     sdn_name = []
-    #
-    #     # any(santion in self.content for santion in sanction_list)
-    #     for sanction in sanction_list:
-    #         if sanction in self.object.content:
-    #             context['result'] = '제재 대상 검출'
-    #             sdn_name.append(sanction)
-    #
-    #     context['sanction'] = sdn_name
-
-    # 편집거리 이용해서 검출 -> 너무 성능이 안좋음
+    # 편집거리 이용해서 검출
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+
+        # 제재대상 데이터 가져옴
         sanction_list = SanctionMain.objects.all().values_list('sdn_name', flat=True)
         sdn_name = {}
 
@@ -136,11 +124,11 @@ class PageDetailView(DetailView):
         #docs = self.object.content.split(' ').remove('')
         #text = re.sub(r"[^a-zA-Z0-9 ]", "", self.object.content)
         docs = []
-
         for s in self.object.content.split():
             s= re.sub(r"[^a-zA-Z0-9 ]","", s)
             docs.append(s)
 
+        # 임계치 데이터를 가져옴
         r = SetThreshold.objects.raw('SELECT * FROM threshold_setthreshold ORDER BY set_date DESC LIMIT 1')[0].threshold
         for doc in docs:
             for sanction in sanction_list:
@@ -149,14 +137,7 @@ class PageDetailView(DetailView):
                     # logger.error(sanction)
                     context['result'] = '제재 대상 검출'
                     sdn_name[sanction] = round(jellyfish.jaro_winkler(sanction, doc) * 100, 2)
-                    # context['box']
 
         context['sanction'] = sdn_name.items()
 
         return context
-
-from box_canvas import tesseract_ocr_extract
-
-def box(request):
-    box = tesseract_ocr_extract(f'static/upload/{filename}_{idx + 1}.jpg')
-    return render(request, 'page_detail.html', {'box': box})

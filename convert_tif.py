@@ -44,4 +44,30 @@ def file_to_text():
                 content=content,
             ).save()
 
-file_to_text()
+import os
+from PIL import Image
+
+def tifToImage(tifPath,imageFormat,folderPath):
+    """ Function to convert tif to image
+
+    Args:
+        tifPath (str): path of input tif
+        imageFormat (str): format to save image
+        folderPath (str): Folder to save images
+    Returns:
+        int: 0 if successful
+    """
+    print('tiftoimage: {}'.format(tifPath))
+    sep='/' if '/' in tifPath else '\\'
+    fileName=tifPath.split(sep)[-1][:-4]
+    ### Loading tiff image
+    tiffstack= Image.open(tifPath)
+    tiffstack.load()
+
+    ### Saving each image to output folder
+    for i in range(tiffstack.n_frames):
+        tiffstack.seek(i)
+        pageName= fileName + '_{:05d}.{}'.format(i+1,imageFormat)
+        imagePath = os.path.join(folderPath,pageName)
+        tiffstack.save(imagePath)
+    return 0
