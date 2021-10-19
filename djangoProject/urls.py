@@ -19,7 +19,7 @@ from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 
-from djangoProject.views import Home, Introduce
+from djangoProject.views import *
 
 from rest_framework import permissions
 from drf_yasg.views import get_schema_view
@@ -42,7 +42,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
 
     # 홈
-    path('', Home.as_view(), name='home'),
+    path('', ArticleListPreview.as_view(), name='home'),
     path('intro/', Introduce.as_view(), name='introduce'),
     path('article/', include('article.urls')),
 

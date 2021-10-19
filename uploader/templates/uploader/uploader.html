@@ -4,11 +4,42 @@
 
 {% block content %}
 
+<style type="text/css">
+#pageloader {
+  background: rgba( 255, 255, 255, 0.8 );
+  display: none;
+  height: 100%;
+  position: fixed;
+  width: 100%;
+  z-index: 9999;
+}
+
+#pageloader img {
+  left: 50%;
+  margin-left: -32px;
+  margin-top: -32px;
+  position: absolute;
+  top: 50%;
+}
+</style>
+
+<script>
+$(document).ready(function(){
+  $("#myform").on("submit", function(){
+    $("#pageloader").fadeIn();
+  });//submit
+});//document ready
+</script>
+
+<div id="pageloader">
+    <img src="http://cdnjs.cloudflare.com/ajax/libs/semantic-ui/0.16.1/images/loader-large.gif" alt="processing..." />
+</div>
+
 <div class="container" style="padding: 15px;">
     <form id="myform" method="POST" action="{% url 'uploader:uploader' %}" enctype="multipart/form-data">
         {% csrf_token %}
         {% bootstrap_form uploadfileForm %}
-        <input type="submit" class="btn btn-primary col-12" value="Submit">
+        <input type="submit" class="btn btn-primary col-12" value="제출">
     </form>
 </div>
 

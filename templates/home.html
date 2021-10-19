@@ -55,4 +55,31 @@
     </div>
 </section>
 
+<section class="py-5 bg-light">
+    <div class="container px-5">
+        <div class="row gx-5">
+            <h2 class="fw-bolder fs-5 mb-4">관련 기사</h2>
+
+            <!-- News item-->
+            {% for article in articles %}
+                <div class="mb-xl-5">
+                    <div class="small text-muted">{{ article.release_date|date:'N d일, Y년' }}</div>
+                    <a class="link-dark" href="{{ article.link }}"><h3>{{ article.title }}</h3></a>
+                    <h6>{{ article.content }}</h6>
+                </div>
+           {% endfor %}
+
+            <div class="text-end mb-5 mb-xl-0">
+                <a class="text-decoration-none" href="#!">
+                    More news
+                    <i class="bi bi-arrow-right"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+
 {% endblock %}

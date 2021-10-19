@@ -17,40 +17,14 @@
         {% endblock %}
 
     </head>
+    <!-- jQuery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <!-- Core theme JS-->
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script type="module" src="{% static 'js/spin.js' %}"></script>
 
     {% block script %}
     {% endblock %}
-
-    <style type="text/css">
-    #pageloader {
-      background: rgba( 255, 255, 255, 0.8 );
-      display: none;
-      height: 100%;
-      position: fixed;
-      width: 100%;
-      z-index: 9999;
-    }
-
-    #pageloader img {
-      left: 50%;
-      margin-left: -32px;
-      margin-top: -32px;
-      position: absolute;
-      top: 50%;
-    }
-    </style>
-
-    <script>
-    $(document).ready(function(){
-      $("#myform").on("submit", function(){
-        $("#pageloader").fadeIn();
-      });//submit
-    });//document ready
-    </script>
-
-    <div id="pageloader">
-        <img src="http://cdnjs.cloudflare.com/ajax/libs/semantic-ui/0.16.1/images/loader-large.gif" alt="processing..." />
-    </div>
 
     <body>
     {% include "navbar.html" %}
@@ -67,11 +41,6 @@
 
     <!-- Bootstrap core JS-->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj" crossorigin="anonymous"></script>
-    <!-- jQuery -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <!-- Core theme JS-->
-    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-    <script type="module" src="{% static 'js/spin.js' %}"></script>
 
     </body>
 </html>
