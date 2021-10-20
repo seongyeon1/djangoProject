@@ -106,6 +106,9 @@ class PageDetailView(DetailView):
     model = Page
     template_name = 'mysite/page_detail.html'
 
+    def get_queryset(self):
+        return Page.objects.all()
+
     # 편집거리 이용해서 검출
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -129,7 +132,7 @@ class PageDetailView(DetailView):
             docs.append(s)
 
         # 임계치 데이터를 가져옴
-        r = SetThreshold.objects.raw('SELECT * FROM threshold_setthreshold ORDER BY set_date DESC LIMIT 1')[0].threshold
+        r = self.object.file.threshold.threshold
         for doc in docs:
             for sanction in sanction_list:
                 sanction = re.sub(r"[^a-zA-Z0-9 ]","", sanction)
